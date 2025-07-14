@@ -1,11 +1,12 @@
 import { Router } from "express";
 import userControlers from "../Controllers/userControlers.mjs";
+import {  userCreateValidator } from "../Utils/validationMethods.mjs";
 
 const userRouter = Router()
 
-userRouter.post("/create",userControlers.createNewUser)
+userRouter.post("/create",userCreateValidator(),userControlers.createNewUser)
 
-userRouter.get("/all",userControlers.showAllUsers)
+userRouter.get("/all-users",userControlers.showAllUsers)
 
 userRouter.get("/:id",userControlers.getUserById)
 
