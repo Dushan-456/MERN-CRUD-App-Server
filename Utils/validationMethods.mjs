@@ -24,7 +24,7 @@ export const RegisterValidator = () => [
     }).withMessage("Password must include at least 8 characters, 2 lowercase, 1 uppercase, 1 number, and 1 symbol")
 ];
 
-export const userCreateValidator =()=>[
+export const userDataValidator =()=>[
   body('name').notEmpty().withMessage('Name is required'),
   body('gmail').isEmail().withMessage('Valid Gmail required'),
   body('age').isInt().withMessage('Age must be a number'),
