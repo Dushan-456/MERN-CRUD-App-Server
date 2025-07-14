@@ -1,4 +1,4 @@
-import UserModel from "../model/userModel.mjs";
+import UserModel from "../Models/UserModel.mjs";
 
 class UserController{
 
@@ -55,7 +55,7 @@ showAllUsers = async(req,res)=>{
 
 getUserById = async(req,res)=>{
     try {
-        const user = await UserModel.findOne({_id:req.params.id})
+        const user = await UserModel.findById(req.params.id)
            return  res.status(200).json({
                     msg : " Users by ID",
                     data : user,
