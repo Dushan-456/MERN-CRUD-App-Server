@@ -4,9 +4,9 @@ class UserController{
 
     // Create new user------------------------------------------------------------------------------------------------------------------------------
 createNewUser = async(req,res)=>{
-    const data = req.body;
+    const {name,gmail,age,address} = req.body;
     try {
-        const newUser = await UserModel.create(data)
+        const newUser = await UserModel.create({name,gmail,age,address})
          return res.status(201).json({
                     msg : "User Created Successfull",
                     data : newUser,
