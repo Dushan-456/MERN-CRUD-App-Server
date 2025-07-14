@@ -1,15 +1,17 @@
 import { Router } from "express";
 import userControlers from "../Controllers/userControlers.mjs";
-import {  userCreateValidator } from "../Utils/validationMethods.mjs";
+import { userDataValidator } from "../Utils/validationMethods.mjs";
 
-const userRouter = Router()
+const userRouter = Router();
 
-userRouter.post("/create",userCreateValidator(),userControlers.createNewUser)
+userRouter.post("/add-user", userDataValidator(), userControlers.createNewUser);
 
-userRouter.get("/all-users",userControlers.showAllUsers)
+userRouter.put("/update-user/:id",userDataValidator(), userControlers.updateUser);
 
-userRouter.get("/:id",userControlers.getUserById)
+userRouter.delete("/delete-user/:id", userControlers.deleteUser);
 
+userRouter.get("/all-users", userControlers.showAllUsers);
 
+userRouter.get("/:id", userControlers.getUserById);
 
 export default userRouter;
