@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
 
 const userSchema = new Schema({
-          name:{
+        name:{
             type:String,  // data Type
             required:true, // Validate
         },  
@@ -21,6 +21,6 @@ const userSchema = new Schema({
     timestamps:true,
 })
 
-const UserModel = model("Users",userSchema)
+const UserModel = model("CRUDUsers",userSchema)
 
 export default UserModel;
