@@ -61,59 +61,62 @@ class UserController {
 
    //Update Users------------------------------------------------------------------------------------------------------------------------------
 
-   updateUser = async (req, res) => {
-      const { id } = req.params;
+updateUser = async (req, res) => {
+  const { id } = req.params;
 
-      // Validate MongoDB ObjectId
-      if (!mongoose.Types.ObjectId.isValid(id)) {
-         return res.status(400).json({
-            msg: "error",
-            error: "Invalid user ID",
-            data: null,
-         });
-      }
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({
+      msg: "error",
+      error: "Invalid user ID",
+      data: null,
+    });
+  }
 
-      const error = validationResult(req);
-      const updatingError = errorCreate(error.array());
-      if (error.array().length) {
-         return res.status(400).json({
-            msg: "error",
-            error: updatingError,
-            data: null,
-         });
-      }
+  const errors = validationResult(req);
+  const updatingError = errorCreate(errors.array());
 
-      const updatedData = matchedData(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      msg: "error",
+      error: updatingError,
+      data: null,
+    });
+  }
 
-      try {
-         const updatedUser = await UserModel.findByIdAndUpdate(
-            id,
-            updatedData,
-            {
-               new: true,
-               runValidators: true,
-            }
-         );
-         if (!updatedUser) {
-            return res.status(404).json({
-               msg: "error",
-               error: "User not found",
-               data: null,
-            });
-         }
-         return res.status(200).json({
-            msg: "User updated successfully",
-            data: updatedUser,
-         });
-      } catch (error) {
-         console.error(error);
+  const updatedData = matchedData(req);
 
-         return res.status(500).json({
-            msg: "error",
-            error: "Internal Server Error",
-         });
-      }
-   };
+  // If a new profile picture is uploaded, save its filename
+  if (req.file) {
+    updatedData.profilePicture = req.file.filename;
+  }
+
+  try {
+    const updatedUser = await UserModel.findByIdAndUpdate(id, updatedData, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        msg: "error",
+        error: "User not found",
+        data: null,
+      });
+    }
+
+    return res.status(200).json({
+      msg: "User updated successfully",
+      data: updatedUser,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      msg: "error",
+      error: "Internal Server Error",
+    });
+  }
+};
+
 
    //Get  Users by ID------------------------------------------------------------------------------------------------------------------------------
 
