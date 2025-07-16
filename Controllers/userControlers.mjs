@@ -16,9 +16,12 @@ class UserController {
          });
       }
 
-      const { name, gmail, age, address } = matchedData(req);
+      const { first_name, last_name, dob,gender, designation,mobile,gmail,age,fb_profile,address } = matchedData(req);
+
+      const profilePicture = req.file?.filename || null;
+
       try {
-         const newUser = await UserModel.create({ name, gmail, age, address });
+         const newUser = await UserModel.create({ first_name, last_name, dob,gender, designation,mobile,gmail,age,fb_profile,address,profilePicture  });
          return res.status(201).json({
             msg: "User Created Successfull",
             data: newUser,
