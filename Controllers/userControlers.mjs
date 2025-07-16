@@ -16,12 +16,35 @@ class UserController {
          });
       }
 
-      const { first_name, last_name, dob,gender, designation,mobile,gmail,age,fb_profile,address } = matchedData(req);
+      const {
+         first_name,
+         last_name,
+         dob,
+         gender,
+         designation,
+         mobile,
+         gmail,
+         age,
+         fb_profile,
+         address,
+      } = matchedData(req);
 
       const profilePicture = req.file?.filename || null;
 
       try {
-         const newUser = await UserModel.create({ first_name, last_name, dob,gender, designation,mobile,gmail,age,fb_profile,address,profilePicture  });
+         const newUser = await UserModel.create({
+            first_name,
+            last_name,
+            dob,
+            gender,
+            designation,
+            mobile,
+            gmail,
+            age,
+            fb_profile,
+            address,
+            profilePicture,
+         });
          return res.status(201).json({
             msg: "User Created Successfull",
             data: newUser,
@@ -61,62 +84,65 @@ class UserController {
 
    //Update Users------------------------------------------------------------------------------------------------------------------------------
 
-updateUser = async (req, res) => {
-  const { id } = req.params;
+   updateUser = async (req, res) => {
+      const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({
-      msg: "error",
-      error: "Invalid user ID",
-      data: null,
-    });
-  }
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+         return res.status(400).json({
+            msg: "error",
+            error: "Invalid user ID",
+            data: null,
+         });
+      }
 
-  const errors = validationResult(req);
-  const updatingError = errorCreate(errors.array());
+      const errors = validationResult(req);
+      const updatingError = errorCreate(errors.array());
 
-  if (!errors.isEmpty()) {
-    return res.status(400).json({
-      msg: "error",
-      error: updatingError,
-      data: null,
-    });
-  }
+      if (!errors.isEmpty()) {
+         return res.status(400).json({
+            msg: "error",
+            error: updatingError,
+            data: null,
+         });
+      }
 
-  const updatedData = matchedData(req);
+      const updatedData = matchedData(req);
 
-  // If a new profile picture is uploaded, save its filename
-  if (req.file) {
-    updatedData.profilePicture = req.file.filename;
-  }
+      // If a new profile picture is uploaded, save its filename
+      if (req.file) {
+         updatedData.profilePicture = req.file.filename;
+      }
 
-  try {
-    const updatedUser = await UserModel.findByIdAndUpdate(id, updatedData, {
-      new: true,
-      runValidators: true,
-    });
+      try {
+         const updatedUser = await UserModel.findByIdAndUpdate(
+            id,
+            updatedData,
+            {
+               new: true,
+               runValidators: true,
+            }
+         );
 
-    if (!updatedUser) {
-      return res.status(404).json({
-        msg: "error",
-        error: "User not found",
-        data: null,
-      });
-    }
+         if (!updatedUser) {
+            return res.status(404).json({
+               msg: "error",
+               error: "User not found",
+               data: null,
+            });
+         }
 
-    return res.status(200).json({
-      msg: "User updated successfully",
-      data: updatedUser,
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      msg: "error",
-      error: "Internal Server Error",
-    });
-  }
-};
-
+         return res.status(200).json({
+            msg: "User updated successfully",
+            data: updatedUser,
+         });
+      } catch (error) {
+         console.error(error);
+         return res.status(500).json({
+            msg: "error",
+            error: "Internal Server Error",
+         });
+      }
+   };
 
    //Get  Users by ID------------------------------------------------------------------------------------------------------------------------------
 
@@ -160,7 +186,6 @@ updateUser = async (req, res) => {
          });
       }
    };
-
 
    //Delete  Users by ID------------------------------------------------------------------------------------------------------------------------------
 
