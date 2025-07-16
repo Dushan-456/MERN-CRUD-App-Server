@@ -25,10 +25,16 @@ export const RegisterValidator = () => [
 ];
 
 export const userDataValidator =()=>[
-  body('name').notEmpty().withMessage('Name is required'),
+  body('first_name').notEmpty().withMessage('First Name is required'),
+  body('last_name').notEmpty().withMessage('Last Name is required'),
+  body('dob').notEmpty().withMessage('DOB is required'),
+  body('gender').notEmpty().withMessage('Gender is required'),
+  body('designation').notEmpty().withMessage('Designation is required'),
+  body('mobile').notEmpty().withMessage('Mobile Number is required'),
+  body('fb_profile').notEmpty().withMessage('Fb Profile is required'),
   body('gmail').isEmail().withMessage('Valid Gmail required'),
   body('age').isInt().withMessage('Age must be a number'),
-  body('address').notEmpty().withMessage('Address is required')
+  body('address').notEmpty().withMessage('Address is required'),
 ]
 
 
