@@ -7,7 +7,7 @@ const userRouter = Router();
 
 userRouter.post("/add-user",upload.single("profilePicture"), userDataValidator(), userControlers.createNewUser);
 
-userRouter.put("/update-user/:id",userDataValidator(), userControlers.updateUser);
+userRouter.put(  "/update-user/:id",  upload.single("profilePicture"),   userDataValidator(),  userControlers.updateUser);
 
 userRouter.delete("/delete-user/:id", userControlers.deleteUser);
 
