@@ -1,10 +1,11 @@
 import { Router } from "express";
 import userControlers from "../Controllers/userControlers.mjs";
 import { userDataValidator } from "../Utils/validationMethods.mjs";
+import upload from "../Utils/upload.mjs";
 
 const userRouter = Router();
 
-userRouter.post("/add-user", userDataValidator(), userControlers.createNewUser);
+userRouter.post("/add-user",upload.single("profilePicture"), userDataValidator(), userControlers.createNewUser);
 
 userRouter.put("/update-user/:id",userDataValidator(), userControlers.updateUser);
 
